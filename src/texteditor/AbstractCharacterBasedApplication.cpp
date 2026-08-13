@@ -88,7 +88,7 @@ struct AbstractCharacterBasedApplication::Private {
 	QString dialog_value;
 	std::vector<AbstractCharacterBasedApplication::Char16> screen;
 	std::vector<uint8_t> line_flags;
-	row_index_t current_logical_row_ = -1; //@
+	row_index_t current_logical_row = -1; //@
 	int current_logical_col = -1; //@
 	bool parsed_for_edit = false;
 	Document::Line current_line_data;
@@ -530,7 +530,7 @@ void AbstractCharacterBasedApplication::fetchCurrentLine(std::vector<Document::L
 
 row_index_t AbstractCharacterBasedApplication::currentLogicalRow() const
 {
-	return m->current_logical_row_;
+	return m->current_logical_row;
 }
 
 int AbstractCharacterBasedApplication::currentLogicalCol() const
@@ -540,7 +540,7 @@ int AbstractCharacterBasedApplication::currentLogicalCol() const
 
 void AbstractCharacterBasedApplication::setCurrentLogicalRow(row_index_t row)
 {
-	m->current_logical_row_ = row;
+	m->current_logical_row = row;
 }
 
 void AbstractCharacterBasedApplication::setCurrentLogicalCol(int col)

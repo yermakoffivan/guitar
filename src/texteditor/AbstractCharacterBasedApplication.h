@@ -397,7 +397,7 @@ private:
 protected:
 	SelectionAnchor selection_start;
 	SelectionAnchor selection_end;
-	const int reference_char_width_ = 1; // TODO: remove
+	const int reference_char_width_ = 1; //@ TODO: remove
 protected:
 
 	std::vector<Document::Line> *lines();
@@ -610,12 +610,11 @@ public:
 	std::vector<Character> *parsedCurrentLine();
 	void doWrapping();
 	void setWrappingMode(WrappingMode mode);
-#if 1
+
 	void setCurrentLogicalRow(row_index_t row);
 	void setCurrentLogicalCol(int col);
 	row_index_t currentLogicalRow() const;
 	int currentLogicalCol() const;
-#endif
 protected:
 	void write_(char const *ptr, bool by_keyboard);
 	void write_(QString const &text, bool by_keyboard);
