@@ -617,7 +617,7 @@ void AbstractCharacterBasedApplication::commitLine(std::vector<Character> const 
 	if (isReadOnly()) return;
 	
 	Document *doc = &engine()->document;
-	std::vector<Document::Line> *lines = this->lines();
+	std::vector<Document::Line> *lines = &doc->lines;
 	
 	std::vector<char> ba;
 	if (!vec.empty()){
@@ -636,7 +636,7 @@ void AbstractCharacterBasedApplication::commitLine(std::vector<Character> const 
 	if (m->parsed_row_index == 0 && lines->empty()) {
 		Document::Line newline;
 		newline.type = Document::LineType::Normal;
-		doc->lines.push_back(newline);
+		lines->push_back(newline);
 	}
 	Document::Line *line = &(*lines)[m->parsed_row_index];
 	
@@ -652,7 +652,6 @@ void AbstractCharacterBasedApplication::commitLine(std::vector<Character> const 
 	}
 	
 	invalidateLineFormat(m->parsed_row_index);
-	
 }
 
 std::vector<Character> *AbstractCharacterBasedApplication::parsedCurrentLine()
@@ -1759,6 +1758,9 @@ void AbstractCharacterBasedApplication::writeNewLine()
 	m->parsed_row_index = currentRow();
 	std::vector<Document::Line> *lines = &engine()->document.lines;
 	lines->insert(lines->begin() + m->parsed_row_index, Document::Line::NormalEmptyLine());
+	
+	doWrapping(); //@ TODO:
+	
 	// commit next line
 	commitLine(next_line);
 
@@ -2340,8 +2342,9 @@ void AbstractCharacterBasedApplication::internalWrite(const ushort *begin, const
 			col_index++;
 		}
 	}
-	m->parsed_col_index = col_index;
 	commitLine(*vec);
+	m->parsed_col_index = col_index;
+	doWrapping(); //@ TODO:
 	setCursorCol(col_index);
 	updateVisibility(true, true, true);
 }
